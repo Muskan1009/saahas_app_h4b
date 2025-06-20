@@ -51,7 +51,7 @@ export default function Login() {
       </View>
 
       {/* Social Login */}
-      <View className="flex-row justify-center space-x-4">
+      <View className="flex-row justify-center gap-4">
         <TouchableOpacity className="border border-[#BBF389] rounded-md p-2 w-20 items-center">
           <FontAwesome name="google" size={20} color="white" />
         </TouchableOpacity>
@@ -64,9 +64,10 @@ export default function Login() {
       </View>
 
       {/* Login Button */}
+      <View className="flex-1 justify-end">
       <TouchableOpacity
         onPress={() => router.push('/auth/otp')}
-        className="mt-60 bg-[#BBF389] rounded-3xl py-3"
+        className=" bg-[#BBF389] rounded-3xl py-3 "
       >
         <Text className="text-center text-lg text-black">Login</Text>
       </TouchableOpacity>
@@ -78,6 +79,7 @@ export default function Login() {
       >
         <Text className="text-center text-lg text-white">New User ? Register</Text>
       </TouchableOpacity>
+      </View>
     </KeyboardAvoidingView>
   );
 }

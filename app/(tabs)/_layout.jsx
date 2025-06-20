@@ -33,15 +33,15 @@ export default function RootLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
           tabBarIcon: ({ focused }) => (
-            <TabIcon label="Home" icon="home-outline" focused={focused} />
+            <TabIcon label="home" icon="home-outline" focused={focused} />
           ),
         }}
       />
       <Tabs.Screen
-        name="route"
+        name="map"
         options={{
           tabBarIcon: ({ focused }) => (
             <TabIcon label="Route" icon="location-outline" focused={focused} />
