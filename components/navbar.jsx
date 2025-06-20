@@ -5,7 +5,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function Navbar() {
     return (
-        <View className="flex-row justify-between items-center px-4 pt-4 pb-2 bg-black">
+        <View className="flex-row justify-between items-center px-4 pt-4 pb-3 bg-black">
             <TouchableOpacity>
                 <View className="border-[#FFFFFF6E] border-[2px] w-12 h-12 rounded-full items-center justify-center">
                     <Ionicons name="menu" size={28} color="white" />
