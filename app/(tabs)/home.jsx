@@ -32,7 +32,7 @@ import Navbar from '../../components/navbar'; // Adjust path as per your project
 
 export default function Home() {
   return (
-    <View className="flex-1 bg-black">
+    <View className="flex-1 pt-7 bg-black">
       {/* Top Navbar */}
       <Navbar />
 
@@ -107,6 +107,10 @@ export default function Home() {
             className="w-full h-48 aspect-video"
             resizeMode="contain"
           />
+        </View>
+
+        <View className="h-[50vh]">
+          <Text>hello</Text>
         </View>
       </ScrollView>
     </View>

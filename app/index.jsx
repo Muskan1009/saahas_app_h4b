@@ -27,7 +27,7 @@ export default function LoadingScreen() {
 
       {/* Get Started Button */}
       <TouchableOpacity
-        onPress={() => router.push('/auth/login')} // Navigate to login or onboarding
+        onPress={() => router.push('/home')} // Navigate to login or onboarding
         className="border border-[#BBF389] rounded-full px-10 py-3 mt-20"
       >
         <Text className="text-white text-base font-semibold">Get started</Text>
