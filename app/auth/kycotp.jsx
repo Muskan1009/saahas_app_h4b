@@ -1,7 +1,8 @@
 
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
-import { Ionicons, Entypo } from '@expo/vector-icons';
+import { Entypo, Ionicons } from '@expo/vector-icons';
+import { useState } from 'react';
+import { SafeAreaView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+
 
 export default function OtpScreen() {
   const [otp, setOtp] = useState('');
