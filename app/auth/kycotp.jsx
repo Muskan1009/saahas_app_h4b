@@ -21,12 +21,12 @@ const router = useRouter();
     setIsError('');
     setIsSuccess('');
 
-    if (otp === '999999') {
-      setIsLoading(false);
-      setIsError('This is only valid for testing purposes');
-      router.push('/home');
-      return;
-    }
+    // if (otp === '999999') {
+    //   setIsLoading(false);
+    //   setIsError('This is only valid for testing purposes');
+    //   router.push('/home');
+    //   return;
+    // }
 
     const token = await getItemAsync('token');
 
@@ -41,7 +41,7 @@ const router = useRouter();
       .then(res => res.json())
       .then(async (result) => {
 
-        if (result.success && result.data.kyc_status === 'VERIFIED') {
+        if (result.success) {
           setIsLoading(false);
           setIsSuccess(result.message);
           await deleteItemAsync('token');
