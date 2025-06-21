@@ -1,29 +1,52 @@
-import React, { useEffect } from 'react';
-import { View, Text, Image, ActivityIndicator } from 'react-native';
-import { useRouter } from 'expo-router';
-import { useFetchUser } from '../hooks/useUser'; // Assuming this is correctly set up
+import { useNavigationContainerRef, useRouter } from 'expo-router';
+import React, { useEffect, useRef, useState } from 'react';
+import { ActivityIndicator, Image, Text, View } from 'react-native';
 import '../global.css';
+import { getItemAsync } from 'expo-secure-store'
 
 export default function LoadingScreen() {
 
   const router = useRouter();
 
-  const { data, isLoading, isError } = useFetchUser();
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Redirect if user is already authenticated
+  const fetchSession = async () => {
+
+    console.log(process.env.EXPO_PUBLIC_API_URL)
+
+    setIsLoading(true);
+
+    const token = await getItemAsync('token');
+
+    await fetch(`${process.env.EXPO_PUBLIC_API_URL}users`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'token': `Authorization ${token}`,
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+
+        console.log(data)
+
+        if (data.success) {
+          setIsLoading(false);
+          router.replace('/home');
+        } else {
+          setIsLoading(false);
+          router.replace('/auth/login');
+        }
+
+      })
+
+  }
+
   useEffect(() => {
 
-    if (isLoading) return; // Wait for loading to finish
+    fetchSession();
 
-    if (data?.data?.isAuthenticated) {
-      // User is authenticated, redirect to home
-      router.replace('/home');
-    } else {
-      // User is not authenticated, redirect to login
-      router.replace('/auth/login');
-    }
-
-  }, [data]);
+  }, [])
 
   return (
     <View className="flex-1 items-center justify-center bg-black px-6">
