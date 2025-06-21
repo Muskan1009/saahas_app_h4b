@@ -25,12 +25,12 @@ export default function KycScreen() {
       return;
     }
 
-    if (aadhaarNumber === "999999999999") {
-      setisLoading(false);
-      setIsError('This Aadhaar number is only valid for testing purposes');
-      router.push('/auth/kycotp');
-      return;
-    }
+    // if (aadhaarNumber === "999999999999") {
+    //   setisLoading(false);
+    //   setIsError('This Aadhaar number is only valid for testing purposes');
+    //   router.push('/auth/kycotp');
+    //   return;
+    // }
 
     const token = await getItemAsync('token');
 
