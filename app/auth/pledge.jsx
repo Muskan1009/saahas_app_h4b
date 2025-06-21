@@ -36,7 +36,7 @@ export default function PledgeScreen() {
       {/* Top Bar */}
       <View className="flex-row items-center pt-4 justify-between">
               <TouchableOpacity
-              onPress={() => router.push('/auth/welcome')}>
+              onPress={() => router.push('/home')}> 
                 <View className="border-[#FFFFFF6E] border-[2px] w-10 h-10 rounded-full items-center justify-center">
                   <Ionicons name="arrow-back" size={22} color="white" />
                 </View>

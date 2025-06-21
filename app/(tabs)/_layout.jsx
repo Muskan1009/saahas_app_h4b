@@ -57,10 +57,10 @@ export default function RootLayout() {
         />
 
         <Tabs.Screen
-          name="pledge"
+          name="badge"
           options={{
             tabBarIcon: ({ focused }) => (
-              <TabIcon label="Pledge" icon="ribbon-outline" focused={focused} />
+              <TabIcon label="Badge" icon="ribbon-outline" focused={focused} />
             ),
           }}
         />

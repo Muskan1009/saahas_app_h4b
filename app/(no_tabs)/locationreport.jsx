@@ -2,23 +2,28 @@ import { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
 export default function LocationReport() {
   const [crowdType, setCrowdType] = useState('');
   const [lighting, setLighting] = useState('');
   const [security, setSecurity] = useState('');
+  const router = useRouter();
 
   return (
     <SafeAreaView className="flex-1 bg-black">
-      <View className="flex-1 px-6 pt-10 pb-20">
+      <View className="flex-1 px-6 py-14">
         <ScrollView showsVerticalScrollIndicator={false}>
-          {/* Header */}
-          <View className="flex-row items-center mb-6">
-            <TouchableOpacity className="rounded-full border border-[#FFFFFF6E] p-2">
-              <Ionicons name="arrow-back" size={24} color="white" />
-            </TouchableOpacity>
-            <Text className="text-white text-lg font-semibold ml-4 ">Report Location</Text>
-          </View>
+                {/* Top Bar */}
+                <View className="flex-row items-center pb-4 justify-between">
+                  <TouchableOpacity onPress={() => router.push('/home')}>
+                    <View className="border-[#FFFFFF6E] border-[2px] w-10 h-10 rounded-full items-center justify-center">
+                      <Ionicons name="arrow-back" size={22} color="white" />
+                    </View>
+                  </TouchableOpacity>
+                  <Text className="ml-4 text-lg font-medium text-white"></Text>
+                  <View className="w-8" />
+                </View>
 
           {/* Title */}
 
@@ -81,15 +86,19 @@ export default function LocationReport() {
               Capture a photo of the surrounding you{"\n"}want to report.
             </Text>
           </TouchableOpacity>
-        </ScrollView>
-      </View>
 
-      {/* Button fixed at bottom */}
-      <View className="absolute bottom-4 left-6 right-6">
-        <TouchableOpacity className="bg-lime-400 py-3 rounded-full items-center">
+          
+        </ScrollView>
+
+        <View className="flex-1 justify-end mt-12">
+        <TouchableOpacity className="bg-[#BBF389] py-3 rounded-full items-center">
           <Text className="text-black font-semibold text-base">Upload Report</Text>
         </TouchableOpacity>
       </View>
+      </View>
+
+      {/* Button fixed at bottom */}
+      
     </SafeAreaView>
   );
 }
