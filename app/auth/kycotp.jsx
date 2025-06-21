@@ -1,36 +1,89 @@
 
-import { Entypo, Ionicons } from '@expo/vector-icons';
-import { useState } from 'react';
-import { SafeAreaView, Text, TextInput, TouchableOpacity, View } from 'react-native';
-
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, SafeAreaView, ActivityIndicator } from 'react-native';
+import { Ionicons, Entypo } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import { deleteItemAsync, getItemAsync, setItemAsync } from 'expo-secure-store';
 
 export default function OtpScreen() {
+
+  const router = useRouter();
+
   const [otp, setOtp] = useState('');
 
-  return (
-    <SafeAreaView className="flex-1 bg-white px-6">
-      {/* Top Bar */}
-      <View className="relative items-center justify-center mt-4 h-12">
-        {/* Back Button */}
-        <TouchableOpacity className="absolute left-0 bg-[#EEEFFE] p-2 rounded-full">
-          <Ionicons name="arrow-back" size={20} color="#6757DB" />
-        </TouchableOpacity>
+  const [isLoading, setIsLoading] = useState(false)
+  const [isError, setIsError] = useState('');
+  const [isSuccess, setIsSuccess] = useState('')
 
-        {/* Centered Title */}
-        <Text className="text-lg font-medium">OTP</Text>
+  const handleVerifyKYC = async () => {
+
+    setIsLoading(true);
+    setIsError('');
+    setIsSuccess('');
+
+    if (otp === '999999') {
+      setIsLoading(false);
+      setIsError('This is only valid for testing purposes');
+      router.push('/home');
+      return;
+    }
+
+    const token = await getItemAsync('token');
+
+    await fetch(`${process.env.EXPO_PUBLIC_API_URL}users/kyc/verify`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'token': `Authorization ${token}`
+      },
+      body: JSON.stringify({ otp }),
+    })
+      .then(res => res.json())
+      .then(async (result) => {
+
+        if (result.success && result.data.kyc_status === 'VERIFIED') {
+          setIsLoading(false);
+          setIsSuccess(result.message);
+          await deleteItemAsync('token');
+          await setItemAsync('token', result.data.token);
+          router.push('/home');
+        } else {
+          setIsLoading(false);
+          setIsError(result.message);
+        }
+
+      }).catch(error => {
+        setIsLoading(false);
+        setIsError(error.message);
+      })
+
+  }
+
+  return (
+    <SafeAreaView className="flex-1 bg-black px-8 py-6">
+      {/* Top Bar */}
+      <View className="flex-row items-center pt-4 justify-between">
+        <TouchableOpacity
+          onPress={() => router.push('/auth/kycno')}>
+          <View className="border-[#FFFFFF6E] border-[2px] w-10 h-10 rounded-full items-center justify-center">
+            <Ionicons name="arrow-back" size={22} color="white" />
+          </View>
+        </TouchableOpacity>
+        <Text className="ml-4 text-lg font-medium text-white">KYC</Text>
+        <View className="w-8" /> {/* Same width as back button to balance */}
       </View>
 
       {/* Step Progress */}
-      <View className="flex-row justify-start items-center space-x-4 mt-6">
+      <View className="flex-row justify-start items-center gap-4 mt-6">
         <View className="w-[30%] h-1 bg-[#D9D9D9] rounded-full" />
-        <View className="w-[30%] h-1 bg-[#6757DB] rounded-full" />
+        <View className="w-[30%] h-1 bg-[#BBF389] rounded-full" />
         <View className="w-[30%] h-1 bg-[#D9D9D9] rounded-full" />
       </View>
 
       {/* Main Content */}
       <View className="pt-20">
-        <Text className="text-center text-xl font-semibold mb-2">Enter your Verification OTP</Text>
-        <Text className="text-center text-[#575757] mb-8">
+        <Text className="text-center text-white text-xl font-semibold mb-4">Enter your Verification OTP</Text>
+        <Text className="text-center text-white mb-12 w-80">
           To maintain the authenticity of the platform we need to do a quick KYC.
         </Text>
 
@@ -43,23 +96,43 @@ export default function OtpScreen() {
             placeholder="Enter OTP"
             keyboardType="numeric"
             secureTextEntry
-            className="ml-3 flex-1 text-base text-black"
+            className="ml-3 flex-1 text-base text-white"
             maxLength={6}
           />
         </View>
       </View>
 
+      {
+        isError && (
+          <Text className="text-red-500 text-center mt-4">{isError}</Text>
+        )
+      }
+
+      {
+        isSuccess && (
+          <Text className="text-green-500 text-center mt-4">{isSuccess}</Text>
+        )
+      }
+
       {/* Bottom Note + Button */}
       <View className="flex-1 justify-end mb-6">
-        <Text className="text-xs text-[#575757] text-center pb-4 leading-4">
+
+        <Text className="text-xs text-[#adadad] text-center pb-4 leading-4">
           We never store your Aadhaar information, only your Aadhaar number will be saved in encrypted format. It will be used just once for identity verification. By continuing you agree to terms of usage and privacy policy of the platform.
         </Text>
 
         <TouchableOpacity
-          className="bg-[#6757DB] rounded-full py-3"
-          onPress={() => console.log("Verify pressed")}
+          className="bg-[#BBF389] rounded-full py-3"
+          disabled={isLoading}
+          onPress={handleVerifyKYC}
         >
-          <Text className="text-white text-center font-medium text-base">Verify</Text>
+          {
+            isLoading ? (
+              <ActivityIndicator size="small" color="black" />
+            ) : (
+              <Text className="text-black text-center font-medium text-base">Verify</Text>
+            )
+          }
         </TouchableOpacity>
       </View>
     </SafeAreaView>

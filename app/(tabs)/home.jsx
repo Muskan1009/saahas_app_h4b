@@ -37,45 +37,48 @@ export default function Home() {
       <Navbar />
 
       <ScrollView className="flex-1 px-4">
+        <View className="px-4">
         {/* Welcome Text */}
         <View className="mt-6">
-          <Text className="text-[#FFFFFF] text-2xl font-semibold text-center">Hey, where have you been?</Text>
-          <Text className="text-[#FFFFFF] text-base text-center mt-2 px-14">
+          <Text className="text-[#FFFFFF] text-xl font-semibold text-center">Hey, where have you been?</Text>
+          <Text className="text-[#FFFFFF] font-light text-base text-center mt-2 px-14">
             Let’s find the safer way forward, one step at a time.
           </Text>
         </View>
 
         {/* Start Journey Card */}
-        <View className="bg-[#1a1a1a] rounded-xl mt-6">
-          <View className="flex-row items-center justify-between p-4">
-            {/* Left side illustration */}
-            {/* <Image
-              source={require('../assets/girl_with_pin.png')} // Replace with actual image
-              className="w-16 h-16"
-              resizeMode="contain"
-            /> */}
+<View className="relative mt-10">
+  {/* Girl Image floating above */}
+  <Image
+    source={require('../../assets/images/girl.png')}
+    className="w-20 h-20 absolute -top-4 left-4 z-10"
+    resizeMode="contain"
+  />
 
-            {/* Right side Text & Arrow */}
-            <View className="flex-1 ml-4">
-              <Text className="text-white text-lg font-semibold">Start a journey</Text>
-            </View>
+  {/* Start Journey Card */}
+  <View className="bg-gradient-to-r from-[#3D3D41] to-[#2D2D30] rounded-xl mt-6 z-0 border border-[#BBF389]/50">
+    <View className="flex-row items-center justify-between p-5 py-6 pl-24">
+      {/* Right side Text & Arrow */}
+      <View className="ml-4 ">
+        <Text className="text-white text-lg font-semibold">Start a journey</Text>
+      </View>
+      <Ionicons name="arrow-forward" size={24} color="#BBF389" />
+    </View>
 
-            <Ionicons name="arrow-forward" size={24} color="#BBF389" />
-          </View>
-
-          <View className="bg-lime-400 py-2 px-5 rounded-b-xl">
-            <Text className="text-[#000000] text-base p-4">
-              Enter your destination and the app will guide you with the safest routes
-            </Text>
-          </View>
-        </View>
+    <View className="bg-[#BBF389] py-2 px-5 rounded-b-xl">
+      <Text className="text-[#000000] text-base p-4 text-center">
+        Enter your destination and the app will guide you with the safest routes
+      </Text>
+    </View>
+  </View>
+</View>
 
         {/* Quick Actions */}
         <Text className="text-white font-semibold text-base mt-6 mb-3 flex justify-center">Quick actions</Text>
 
         <View className="flex-row justify-between h-60 gap-4" >
           {/* Unsafe Zone */}
-          <TouchableOpacity className="h-52 w-[55%] bg-[#1a1a1a] rounded-xl flex flex-col justify-between pb-2">
+          <TouchableOpacity className="h-52 w-[55%] bg-[#1a1a1a] rounded-md flex flex-col justify-between pb-2">
             <View className="h-full w-full overflow-hidden">
               <Image
                 source={require('../../assets/images/map_placeholder.png')}
@@ -88,7 +91,7 @@ export default function Home() {
 
           {/* Fake Call */}
           <View className="h-full gap-4 w-[45%] pr-4">
-            <TouchableOpacity className="h-[47%] bg-lime-400 rounded-xl justify-center items-center">
+            <TouchableOpacity className="h-[47%] bg-[#BBF389] rounded-xl justify-center items-center">
               <Ionicons name="call" size={22} color="black" />
               <Text className="text-black text-sm mt-2 mb-3">Fake a call</Text>
             </TouchableOpacity>
@@ -111,6 +114,7 @@ export default function Home() {
 
         <View className="h-[50vh]">
           <Text>hello</Text>
+        </View>
         </View>
       </ScrollView>
     </View>

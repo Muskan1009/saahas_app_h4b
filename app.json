@@ -1,6 +1,9 @@
 {
   "expo": {
     "name": "saahas_app_h4b",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "slug": "saahas_app_h4b",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -33,7 +36,9 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-font",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true
