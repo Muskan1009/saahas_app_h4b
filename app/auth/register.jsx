@@ -1,10 +1,49 @@
 import { Feather, FontAwesome, FontAwesome6 } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router';
-import { KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { setItemAsync } from 'expo-secure-store';
+import { useState } from 'react';
+import { ActivityIndicator, KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function Login() {
+
     const router = useRouter();
+
+    const [data, setData] = useState({ fullName: '', email: '', phoneNo: '' });
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [isError, setIsError] = useState('');
+
+    const handleRegister = async () => {
+
+        setIsLoading(true);
+        setIsError('');
+
+        try {
+            const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}users/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                setIsLoading(false);
+                setIsError('');
+                await setItemAsync('userID', result.data.userID);
+                router.push('/auth/otp');
+            } else {
+                setIsLoading(false);
+                setIsError(result.message);
+            }
+        } catch (error) {
+            setIsLoading(false);
+            setIsError(error.message);
+        }
+    }
 
     return (
         <KeyboardAvoidingView
@@ -20,39 +59,45 @@ export default function Login() {
             {/* Input Fields */}
             <View className="space-y-4">
                 <View className="w-full my-2 border border-gray-400 rounded-xl p-[1px] bg-gradient-to-r from-white/10 to-[#999999]/20">
-          <View className="flex-row items-center rounded-xl px-4 py-3 backdrop-blur-md">
-                    <MaterialIcons name="drive-file-rename-outline" size={18} color="#666" className="mr-2" />
-                    <TextInput
-                        className="flex-1 text-base text-black"
-                        placeholder="Full Name"
-                        placeholderTextColor="#888"
-                        keyboardType="name"
-                    />
-                </View>
-                </View>
-
-               <View className="w-full my-2 border border-gray-400 rounded-xl p-[1px] bg-gradient-to-r from-white/10 to-[#999999]/20">
-          <View className="flex-row items-center rounded-xl px-4 py-3 backdrop-blur-md">
-                    <Feather name="mail" size={18} color="#666" className="mr-2" />
-                    <TextInput
-                        className="flex-1 text-base text-black"
-                        placeholder="Email"
-                        placeholderTextColor="#888"
-                        keyboardType="email-address"
-                    />
-                </View>
+                    <View className="flex-row items-center rounded-xl px-4 py-3 backdrop-blur-md">
+                        <MaterialIcons name="drive-file-rename-outline" size={18} color="#666" className="mr-2" />
+                        <TextInput
+                            className="flex-1 text-base text-white"
+                            placeholder="Full Name"
+                            placeholderTextColor="#888"
+                            keyboardType="name"
+                            onChangeText={(text) => setData({ ...data, fullName: text })}
+                            value={data.fullName}
+                        />
+                    </View>
                 </View>
 
-                 <View className="w-full my-2 border border-gray-400 rounded-xl p-[1px] bg-gradient-to-r from-white/10 to-[#999999]/20">
-          <View className="flex-row items-center rounded-xl px-4 py-3 backdrop-blur-md">
-                    <Feather name="phone" size={18} color="#666" className="mr-2" />
-                    <TextInput
-                        className="flex-1 text-base text-black"
-                        placeholder="Phone Number"
-                        placeholderTextColor="#888"
-                        keyboardType="phone-pad"
-                    />
+                <View className="w-full my-2 border border-gray-400 rounded-xl p-[1px] bg-gradient-to-r from-white/10 to-[#999999]/20">
+                    <View className="flex-row items-center rounded-xl px-4 py-3 backdrop-blur-md">
+                        <Feather name="mail" size={18} color="#666" className="mr-2" />
+                        <TextInput
+                            className="flex-1 text-base text-white"
+                            placeholder="Email"
+                            placeholderTextColor="#888"
+                            keyboardType="email-address"
+                            onChangeText={(text) => setData({ ...data, email: text })}
+                            value={data.email}
+                        />
+                    </View>
                 </View>
+
+                <View className="w-full my-2 border border-gray-400 rounded-xl p-[1px] bg-gradient-to-r from-white/10 to-[#999999]/20">
+                    <View className="flex-row items-center rounded-xl px-4 py-3 backdrop-blur-md">
+                        <Feather name="phone" size={18} color="#666" className="mr-2" />
+                        <TextInput
+                            className="flex-1 text-base text-white"
+                            placeholder="Phone Number"
+                            placeholderTextColor="#888"
+                            keyboardType="phone-pad"
+                            onChangeText={(text) => setData({ ...data, phoneNo: text })}
+                            value={data.phoneNo}
+                        />
+                    </View>
                 </View>
             </View>
 
@@ -76,20 +121,33 @@ export default function Login() {
                 </TouchableOpacity>
             </View>
 
-            {/* Login Button */}
-             <View className="flex-1 justify-end">
-            <TouchableOpacity className=" bg-[#BBF389] py-3 rounded-3xl">
-                <Text className="text-black text-center text-lg">Register</Text>
-            </TouchableOpacity>
+            {/* Error Message */}
+            {isError && (
+                <View className="bg-red-500 rounded-lg p-4 mt-6">
+                    <Text className="text-white text-center">{isError}</Text>
+                </View>
+            )}
 
-            {/* Register Redirect */}
-            <TouchableOpacity
-                onPress={() => router.push('/auth/login')}
-                className="mt-4 border border-[#BBF389] rounded-3xl py-3 "
-            >
-                <Text className="text-center text-white text-lg">Already have an account? Login</Text>
-            </TouchableOpacity>
-        </View>    
+            {/* Button */}
+            <View className="flex-1 justify-end">
+
+                <TouchableOpacity className=" bg-[#BBF389] py-3 rounded-3xl" disabled={isLoading}
+                    onPress={handleRegister}>
+                    {isLoading ? (
+                        <ActivityIndicator size="small" color="black" />
+                    ) : (
+                        <Text className="text-lg text-black text-center">Register</Text>
+                    )}
+                </TouchableOpacity>
+
+                {/* Register Redirect */}
+                <TouchableOpacity
+                    onPress={() => router.push('/auth/login')}
+                    className="mt-4 border border-[#BBF389] rounded-3xl py-3 "
+                >
+                    <Text className="text-center text-white text-lg">Already have an account? Login</Text>
+                </TouchableOpacity>
+            </View>
 
         </KeyboardAvoidingView>
     );
