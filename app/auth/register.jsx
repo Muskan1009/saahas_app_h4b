@@ -64,7 +64,7 @@ export default function Login() {
             </View>
 
             {/* Social Login */}
-            <View className="flex-row justify-center space-x-4">
+            <View className="flex-row justify-center gap-4">
                 <TouchableOpacity className="border border-[#BBF389] rounded-md p-2 w-20 items-center">
                     <FontAwesome name="google" size={20} color="white" />
                 </TouchableOpacity>
