@@ -5,9 +5,9 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function Navbar() {
     return (
-        <View className="flex-row justify-between items-center px-4 pt-4 pb-2 bg-black">
+        <View className="flex-row justify-between items-center px-6 pt-4 pb-3 bg-black">
             <TouchableOpacity>
-                <View className="border-[#FFFFFF6E] border-[2px] w-12 h-12 rounded-full items-center justify-center">
+                <View className="border-[#FFFFFF6E] border-[2px] w-12 h-12 rounded-full items-center justify-center bg-gradient-to-r from-[#3D3D41] to-[#2D2D30]">
                     <Ionicons name="menu" size={28} color="white" />
                 </View>
             </TouchableOpacity>
@@ -15,7 +15,7 @@ export default function Navbar() {
             {/* Right-side Icon (Android character) */}
             <TouchableOpacity>
                 {/* Placeholder - use your own image/icon if needed */}
-                <View className="border-[#FFFFFF6E] border-[2px] w-12 h-12 rounded-full items-center justify-center">
+                <View className="border-[#FFFFFF6E] border-[2px] w-12 h-12 rounded-full items-center justify-center bg-gradient-to-r from-[#3D3D41] to-[#2D2D30]">
                     <Ionicons name="notifications" size={28} color="#BBF389" />
                 </View>
             </TouchableOpacity>

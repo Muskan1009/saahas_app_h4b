@@ -64,7 +64,7 @@ export default function Login() {
             </View>
 
             {/* Social Login */}
-            <View className="flex-row justify-center space-x-4">
+            <View className="flex-row justify-center gap-4">
                 <TouchableOpacity className="border border-[#BBF389] rounded-md p-2 w-20 items-center">
                     <FontAwesome name="google" size={20} color="white" />
                 </TouchableOpacity>
@@ -77,7 +77,8 @@ export default function Login() {
             </View>
 
             {/* Login Button */}
-            <TouchableOpacity className="mt-44 bg-[#BBF389] py-3 rounded-3xl">
+             <View className="flex-1 justify-end">
+            <TouchableOpacity className=" bg-[#BBF389] py-3 rounded-3xl">
                 <Text className="text-black text-center text-lg">Register</Text>
             </TouchableOpacity>
 
@@ -88,6 +89,8 @@ export default function Login() {
             >
                 <Text className="text-center text-white text-lg">Already have an account? Login</Text>
             </TouchableOpacity>
+        </View>    
+
         </KeyboardAvoidingView>
     );
 }
