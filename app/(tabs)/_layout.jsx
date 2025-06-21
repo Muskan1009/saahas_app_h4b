@@ -1,12 +1,8 @@
 import { Tabs, useRouter } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { View, Text, TouchableOpacity, StatusBar } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Tabs } from 'expo-router';
 import { Feather, Ionicons } from '@expo/vector-icons';
-import { View, Text, StatusBar } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import '../../global.css';
 
@@ -15,7 +11,7 @@ export default function RootLayout() {
   const insets = useSafeAreaInsets();
 
   return (
-    <SafeAreaView style={{ paddingTop: insets.top }} edges={['top']}>
+    <SafeAreaView style={{ flex: 1 }} edges={[]}>
       <StatusBar />
       <Tabs
         screenOptions={{
@@ -61,10 +57,10 @@ export default function RootLayout() {
         />
 
         <Tabs.Screen
-          name="badge"
+          name="pledge"
           options={{
             tabBarIcon: ({ focused }) => (
-              <TabIcon label="Badge" icon="ribbon-outline" focused={focused} />
+              <TabIcon label="Pledge" icon="ribbon-outline" focused={focused} />
             ),
           }}
         />
