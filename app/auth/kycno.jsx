@@ -68,18 +68,17 @@ export default function KycScreen() {
     <SafeAreaView className="flex-1 bg-black px-8 py-6">
       {/* Top Bar */}
       <View className="flex-row items-center pt-4 justify-between">
-        <TouchableOpacity
-          onPress={() => router.push('/auth/welcome')}>
+        <TouchableOpacity onPress={() => router.push('/auth/welcome')}>
           <View className="border-[#FFFFFF6E] border-[2px] w-10 h-10 rounded-full items-center justify-center">
             <Ionicons name="arrow-back" size={22} color="white" />
           </View>
         </TouchableOpacity>
         <Text className="ml-4 text-lg font-medium text-white">KYC</Text>
-        <View className="w-8" /> {/* Same width as back button to balance */}
+        <View className="w-8" />
       </View>
 
       {/* Step Progress */}
-      <View className="flex-row justify-start items-center space-x-4 mt-6">
+      <View className="flex-row justify-start items-center gap-4 mt-6">
         <View className="w-[30%] h-1 bg-[#BBF389] rounded-full" />
         <View className="w-[30%] h-1 bg-[#D9D9D9] rounded-full" />
         <View className="w-[30%] h-1 bg-[#D9D9D9] rounded-full" />
@@ -87,7 +86,9 @@ export default function KycScreen() {
 
       {/* Main Content */}
       <View className="pt-20">
-        <Text className="text-center text-white text-xl font-semibold pb-2">Enter your Aadhaar Number</Text>
+        <Text className="text-center text-white text-xl font-semibold pb-2">
+          Enter your Aadhaar Number
+        </Text>
         <Text className="text-center text-white mb-8 text-sm">
           To maintain the authenticity of the platform we need to do a quick KYC.
         </Text>
@@ -99,6 +100,7 @@ export default function KycScreen() {
             value={aadhaarNumber}
             onChangeText={setAadhaarNumber}
             placeholder="Enter Aadhaar Number"
+            placeholderTextColor="#888"
             keyboardType="numeric"
             className="ml-3 flex-1 text-base text-white"
             maxLength={12}
@@ -106,17 +108,13 @@ export default function KycScreen() {
         </View>
       </View>
 
-      {
-        isError && (
-          <Text className="text-red-500 text-center mt-4">{isError}</Text>
-        )
-      }
+      {isError ? (
+        <Text className="text-red-500 text-center mt-4">{isError}</Text>
+      ) : null}
 
-      {
-        isSuccess && (
-          <Text className="text-green-500 text-center mt-4">{isSuccess}</Text>
-        )
-      }
+      {isSuccess ? (
+        <Text className="text-green-500 text-center mt-4">{isSuccess}</Text>
+      ) : null}
 
       {/* Bottom Note + Button */}
       <View className="flex-1 justify-end mb-6">
@@ -128,18 +126,17 @@ export default function KycScreen() {
         <TouchableOpacity
           onPress={handleInitiateKYC}
           disabled={isLoading || aadhaarNumber.length !== 12}
-          className=" bg-[#BBF389] rounded-3xl py-3 "
+          className="bg-[#BBF389] rounded-3xl py-3"
         >
-          {
-            isLoading ? (
-              <ActivityIndicator size="small" color="black" />
-            ) : (
-              <Text className="text-black text-center font-semibold text-lg">Verify Aadhaar</Text>
-            )
-          }
+          {isLoading ? (
+            <ActivityIndicator size="small" color="black" />
+          ) : (
+            <Text className="text-black text-center font-semibold text-lg">
+              Verify Aadhaar
+            </Text>
+          )}
         </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
 }
-
