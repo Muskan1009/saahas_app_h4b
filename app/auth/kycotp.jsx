@@ -45,7 +45,7 @@ export default function OtpScreen() {
             placeholder="Enter OTP"
             keyboardType="numeric"
             secureTextEntry
-            className="ml-3 flex-1 text-base text-black"
+            className="ml-3 flex-1 text-base text-white"
             maxLength={6}
           />
         </View>
@@ -57,12 +57,12 @@ export default function OtpScreen() {
           We never store your Aadhaar information, only your Aadhaar number will be saved in encrypted format. It will be used just once for identity verification. By continuing you agree to terms of usage and privacy policy of the platform.
         </Text>
 
-        <TouchableOpacity
-          className="bg-[#BBF389] rounded-full py-3"
-          onPress={() => console.log("Verify pressed")}
-        >
-          <Text className="text-black text-center font-medium text-base">Verify</Text>
-        </TouchableOpacity>
+                <TouchableOpacity
+                onPress={() => router.push('/auth/pledge')}
+                className=" bg-[#BBF389] rounded-3xl py-3 "
+              >
+                <Text className="text-center text-lg text-black">Next</Text>
+              </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

@@ -22,7 +22,7 @@ export default function KycScreen() {
       </View>
 
       {/* Step Progress */}
-      <View className="flex-row justify-start items-center space-x-4 mt-6">
+      <View className="flex-row justify-start items-center gap-4 mt-6">
         <View className="w-[30%] h-1 bg-[#BBF389] rounded-full" />
         <View className="w-[30%] h-1 bg-[#D9D9D9] rounded-full" />
         <View className="w-[30%] h-1 bg-[#D9D9D9] rounded-full" />
