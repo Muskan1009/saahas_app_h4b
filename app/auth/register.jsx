@@ -136,7 +136,7 @@ export default function Login() {
                     {isLoading ? (
                         <ActivityIndicator size="small" color="black" />
                     ) : (
-                        <Text className="text-lg text-black">Register</Text>
+                        <Text className="text-lg text-black text-center">Register</Text>
                     )}
                 </TouchableOpacity>
 
