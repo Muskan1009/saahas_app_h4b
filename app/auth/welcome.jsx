@@ -9,16 +9,16 @@ export default function Welcome() {
     const scrollRef = useRef();
     const [currentIndex, setCurrentIndex] = useState(0);
     const totalSlides = 3;
-    const slideWidth = 200 + 16; // width + gap
+    const slideWidth = 200 + 16;
 
     useEffect(() => {
         const interval = setInterval(() => {
             const nextIndex = (currentIndex + 1) % totalSlides;
             scrollRef.current?.scrollTo({ x: nextIndex * slideWidth, animated: true });
             setCurrentIndex(nextIndex);
-        }, 2500); // change every 2.5 seconds
+        }, 2500); 
 
-        return () => clearInterval(interval); // clean up on unmount
+        return () => clearInterval(interval);
     }, [currentIndex]);
 
     return (
