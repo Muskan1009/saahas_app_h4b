@@ -15,8 +15,8 @@ export default function RootLayout() {
   const insets = useSafeAreaInsets();
 
   return (
-    <View className="flex-1">
-      {/* Tabs */}
+    <SafeAreaView style={{ paddingTop: insets.top }} edges={['top']}>
+      <StatusBar />
       <Tabs
         screenOptions={{
           headerShown: false,
@@ -111,74 +111,7 @@ export default function RootLayout() {
           <Ionicons name="arrow-up-circle-outline" size={28} color="black" />
         </LinearGradient>
       </TouchableOpacity>
-    </View >
-    <SafeAreaView style={{ flex: 1 }} edges={[]}>
-      <StatusBar />
-      <Tabs
-        screenOptions={{
-          headerShown: false,
-          tabBarShowLabel: false,
-          tabBarStyle: {
-            position: 'absolute',
-            alignItems: 'center',
-            paddingBottom: '30',
-            bottom: 0,
-            left: 10,
-            right: 10,
-            height: 90,
-            backgroundColor: '#fff',
-            borderRadius: 40,
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 0 },
-            flexDirection: 'row',
-            shadowOpacity: 0.1,
-            shadowRadius: 8,
-            elevation: 10,
-          },
-        }}
-      >
-        <Tabs.Screen
-          name="home"
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <TabIcon label="home" icon="home-outline" focused={focused} />
-            ),
-          }}
-        />
-        <Tabs.Screen
-          name="map"
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <TabIcon label="Route" icon="location-outline" focused={focused} />
-            ),
-          }}
-        />
-        <Tabs.Screen
-          name="locationreport"
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <CenterButton focused={focused} />
-            ),
-          }}
-        />
-        <Tabs.Screen
-          name="pledge"
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <TabIcon label="Pledge" icon="feather" focused={focused} />
-            ),
-          }}
-        />
-        <Tabs.Screen
-          name="account"
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <TabIcon label="Profile" icon="person-outline" focused={focused} />
-            ),
-          }}
-        />
-      </Tabs>
-    </SafeAreaView>
+    </SafeAreaView >
   );
 }
 
