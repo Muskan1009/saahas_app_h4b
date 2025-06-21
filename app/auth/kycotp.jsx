@@ -23,14 +23,14 @@ export default function OtpScreen() {
       </View>
 
       {/* Step Progress */}
-      <View className="flex-row justify-start items-center space-x-4 mt-6">
+      <View className="flex-row justify-start items-center gap-4 mt-6">
         <View className="w-[30%] h-1 bg-[#D9D9D9] rounded-full" />
         <View className="w-[30%] h-1 bg-[#BBF389] rounded-full" />
         <View className="w-[30%] h-1 bg-[#D9D9D9] rounded-full" />
       </View>
 
       {/* Main Content */}
-      <View className="pt-20 items-center">
+      <View className="pt-20">
         <Text className="text-center text-white text-xl font-semibold mb-4">Enter your Verification OTP</Text>
         <Text className="text-center text-white mb-12 w-80">
           To maintain the authenticity of the platform we need to do a quick KYC.

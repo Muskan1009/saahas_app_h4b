@@ -52,7 +52,7 @@ export default function Otp() {
             <View className="flex-1 justify-end">
                 <TouchableOpacity
                     className=" bg-[#BBF389] py-3 rounded-3xl"
-                    onPress={() => router.push('/home')} // or next screen
+                    onPress={() => router.push('/auth/welcome')} // or next screen
                 >
                     <Text className="text-black text-center font-semibold text-lg">Verify</Text>
                 </TouchableOpacity>
