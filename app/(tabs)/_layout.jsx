@@ -4,6 +4,10 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Tabs } from 'expo-router';
+import { Feather, Ionicons } from '@expo/vector-icons';
+import { View, Text, StatusBar } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import '../../global.css';
 
 export default function RootLayout() {
@@ -11,8 +15,8 @@ export default function RootLayout() {
   const insets = useSafeAreaInsets();
 
   return (
-    <View className="flex-1">
-      {/* Tabs */}
+    <SafeAreaView style={{ paddingTop: insets.top }} edges={['top']}>
+      <StatusBar />
       <Tabs
         screenOptions={{
           headerShown: false,
@@ -107,7 +111,7 @@ export default function RootLayout() {
           <Ionicons name="arrow-up-circle-outline" size={28} color="black" />
         </LinearGradient>
       </TouchableOpacity>
-    </View >
+    </SafeAreaView >
   );
 }
 
