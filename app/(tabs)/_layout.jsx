@@ -1,78 +1,79 @@
 import { Tabs } from 'expo-router';
 import { Feather, Ionicons } from '@expo/vector-icons';
-import { View, Text } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { View, Text, StatusBar } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import '../../global.css';
 
 export default function RootLayout() {
-  
-  const insets = useSafeAreaInsets();
 
   return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarShowLabel: false,
-        tabBarStyle: {
-          position: 'absolute',
-          alignItems: 'center',
-          paddingBottom: '30',
-          bottom: 0,
-          left: 10,
-          right: 10,
-          height: 90,
-          backgroundColor: '#fff',
-          borderRadius: 40,
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 0 },
-          flexDirection: 'row',
-          shadowOpacity: 0.1,
-          shadowRadius: 8,
-          elevation: 10,
-        },
-      }}
-    >
-      <Tabs.Screen
-        name="home"
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <TabIcon label="home" icon="home-outline" focused={focused} />
-          ),
+    <SafeAreaView style={{ flex: 1 }} edges={[]}>
+      <StatusBar />
+      <Tabs
+        screenOptions={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarStyle: {
+            position: 'absolute',
+            alignItems: 'center',
+            paddingBottom: '30',
+            bottom: 0,
+            left: 10,
+            right: 10,
+            height: 90,
+            backgroundColor: '#fff',
+            borderRadius: 40,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 0 },
+            flexDirection: 'row',
+            shadowOpacity: 0.1,
+            shadowRadius: 8,
+            elevation: 10,
+          },
         }}
-      />
-      <Tabs.Screen
-        name="map"
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <TabIcon label="Route" icon="location-outline" focused={focused} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="add-listings/index"
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <CenterButton focused={focused} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="pledge"
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <TabIcon label="Pledge" icon="feather" focused={focused} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="account/index"
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <TabIcon label="Profile" icon="person-outline" focused={focused} />
-          ),
-        }}
-      />
-    </Tabs>
+      >
+        <Tabs.Screen
+          name="home"
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <TabIcon label="home" icon="home-outline" focused={focused} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="map"
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <TabIcon label="Route" icon="location-outline" focused={focused} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="locationreport"
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <CenterButton focused={focused} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="pledge"
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <TabIcon label="Pledge" icon="feather" focused={focused} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="account"
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <TabIcon label="Profile" icon="person-outline" focused={focused} />
+            ),
+          }}
+        />
+      </Tabs>
+    </SafeAreaView>
   );
 }
 
