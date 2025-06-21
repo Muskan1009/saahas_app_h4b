@@ -1,8 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { useRouter } from 'expo-router';
 import Navbar from '../../components/navbar'; // Adjust path as per your project
 
 export default function Home() {
+      const router = useRouter();
+  
   return (
     <View className="flex-1 pt-7 bg-black">
       {/* Top Navbar */}
@@ -64,7 +67,7 @@ export default function Home() {
   {/* Add Allies + SOS Stack */}
   <View className="w-[40%] justify-between">
     {/* Add Allies */}
-    <TouchableOpacity className="bg-[#BBF389] rounded-md py-7 items-center justify-center">
+    <TouchableOpacity className="bg-[#BBF389] rounded-md py-7 items-center justify-center"  onPress={() => router.push('/allies')}>
       <Ionicons name="people-outline" size={22} color="black" />
       <Text className="text-black text-sm mt-2">Add Allies</Text>
     </TouchableOpacity>
