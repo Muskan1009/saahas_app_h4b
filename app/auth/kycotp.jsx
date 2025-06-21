@@ -7,7 +7,7 @@ import { deleteItemAsync, getItemAsync, setItemAsync } from 'expo-secure-store';
 
 export default function OtpScreen() {
 
-  const router = useRouter();
+const router = useRouter();  
 
   const [otp, setOtp] = useState('');
 
