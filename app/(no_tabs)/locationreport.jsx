@@ -106,16 +106,16 @@ export default function LocationReport() {
     <SafeAreaView className="flex-1 bg-black">
       <View className="flex-1 px-6 py-14">
         <ScrollView showsVerticalScrollIndicator={false}>
-                {/* Top Bar */}
-                <View className="flex-row items-center pb-4 justify-between">
-                  <TouchableOpacity onPress={() => router.push('/home')}>
-                    <View className="border-[#FFFFFF6E] border-[2px] w-10 h-10 rounded-full items-center justify-center">
-                      <Ionicons name="arrow-back" size={22} color="white" />
-                    </View>
-                  </TouchableOpacity>
-                  <Text className="ml-4 text-lg font-medium text-white"></Text>
-                  <View className="w-8" />
-                </View>
+          {/* Top Bar */}
+          <View className="flex-row items-center pb-4 justify-between">
+            <TouchableOpacity onPress={() => router.push('/home')}>
+              <View className="border-[#FFFFFF6E] border-[2px] w-10 h-10 rounded-full items-center justify-center">
+                <Ionicons name="arrow-back" size={22} color="white" />
+              </View>
+            </TouchableOpacity>
+            <Text className="ml-4 text-lg font-medium text-white"></Text>
+            <View className="w-8" />
+          </View>
 
           {/* Title */}
 
@@ -208,22 +208,24 @@ export default function LocationReport() {
 
         </ScrollView>
 
-      {/* Button fixed at bottom */}
-      <View className="absolute bottom-4 left-6 right-6">
+        {/* Button fixed at bottom */}
+        <View className="absolute bottom-4 left-6 right-6">
 
-        <TouchableOpacity
-          className="bg-lime-400 py-3 rounded-full items-center"
-          onPress={handleLocationReport}
-          disabled={isLoading}
-        >
-          <Text className="text-black font-semibold text-base">
-            {isLoading ? 'Uploading...' : 'Upload Report'}
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            className="bg-lime-400 py-3 rounded-full items-center"
+            onPress={handleLocationReport}
+            disabled={isLoading}
+          >
+            <Text className="text-black font-semibold text-base">
+              {isLoading ? 'Uploading...' : 'Upload Report'}
+            </Text>
+          </TouchableOpacity>
 
-        {error && (
-          <Text className="text-red-400 text-center mt-2">{error}</Text>
-        )}
+          {error && (
+            <Text className="text-red-400 text-center mt-2">{error}</Text>
+          )}
+
+        </View>
 
       </View>
 
