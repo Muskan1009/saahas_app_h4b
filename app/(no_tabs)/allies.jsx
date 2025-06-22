@@ -1,35 +1,87 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { getItemAsync } from 'expo-secure-store';
 
 
 export default function AlliesScreen() {
+
     const router = useRouter();
 
-    const [allies, setAllies] = useState([
-        { name: 'Mom', phone: '+91 9876543210' },
-        { name: 'Roommate', phone: '+91 9123456789' },
-    ]);
+    const [allies, setAllies] = useState([]);
 
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
 
-    const addAlly = () => {
+    const fetchAllies = async () => {
+
+        const token = await getItemAsync('token');
+
+        fetch(`${process.env.EXPO_PUBLIC_API_URL}users/ally`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'token': `Authorization ${token}`,
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    setAllies(data.data);
+                    console.log(data.data);
+                } else {
+                    Alert.alert('Error', 'Failed to fetch allies. Please try again.');
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                Alert.alert('Error', 'An error occurred while fetching allies.');
+            });
+
+    };
+
+    const addAlly = async () => {
+
+        const token = await getItemAsync('token');
+
         if (!name || !phone) {
             Alert.alert('Missing Fields', 'Please fill both name and phone.');
             return;
         }
-        setAllies([...allies, { name, phone }]);
         setName('');
         setPhone('');
+
+        fetch(`${process.env.EXPO_PUBLIC_API_URL}users/ally`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'token': `Authorization ${token}`,
+            },
+            body: JSON.stringify({ phoneNo: phone, name }),
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    fetchAllies(); // Refresh allies list
+                    Alert.alert('Success', 'Ally added successfully!');
+                } else {
+                    Alert.alert('Error', 'Failed to add ally. Please try again.');
+                }
+            })
+
     };
 
-    const sendSOS = () => {
-        // You can integrate SMS or push notification later here
-        Alert.alert("SOS Sent", "Emergency alert sent to all trusted allies and nearest authorities.");
-    };
+    const sendSOS = async () => {
+
+        console.log('allies', allies);
+
+    }
+
+    useEffect(() => {
+        fetchAllies();
+    }, [])
 
     return (
         <View className="flex-1 bg-black px-6 pt-12 pb-20">
@@ -70,31 +122,36 @@ export default function AlliesScreen() {
 
             {/* Trusted Allies List */}
             <ScrollView className="mb-6">
+
                 <Text className="text-white text-lg font-semibold mb-2">Your Allies</Text>
 
-                {allies.map((ally, idx) => (
-                    <View
-                        key={idx}
-                        className="flex-row items-center justify-between bg-[#1C1C1E] p-4 rounded-lg mb-2"
-                    >
-                        <View>
-                            <Text className="text-white">{ally.name}</Text>
-                            <Text className="text-gray-400">{ally.phone}</Text>
-                        </View>
-
-                        {/* Call Button */}
-                        <TouchableOpacity
-                            onPress={() => router.push({
-                                pathname: '/incomingcall',
-                                params: { name: ally.name, phone: ally.phone }
-                            })}
-                            className="bg-lime-400 p-2 rounded-full ml-4"
+                {allies?.map((ally) => {
+                    console.log(ally);
+                    return (
+                        <View
+                            key={ally._id}
+                            className="flex-row items-center justify-between bg-[#1C1C1E] p-4 rounded-lg mb-2"
                         >
-                            <Ionicons name="call" size={20} color="black" />
-                        </TouchableOpacity>
+                            <View>
+                                <Text className="text-white">{ally?.allyName}</Text>
+                                <Text className="text-gray-400">{ally?.allyContact}</Text>
+                            </View>
 
-                    </View>
-                ))}
+                            {/* Call Button */}
+                            <TouchableOpacity
+                                onPress={() => router.push({
+                                    pathname: '/incomingcall',
+                                    params: { name: ally?.allyName, phone: ally?.allyContact }
+                                })}
+                                className="bg-lime-400 p-2 rounded-full ml-4"
+                            >
+                                <Ionicons name="call" size={20} color="black" />
+                            </TouchableOpacity>
+
+                        </View>
+                    )
+                })}
+
             </ScrollView>
 
 

@@ -1,10 +1,11 @@
 import { EvilIcons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, KeyboardAvoidingView, SafeAreaView, TextInput, View } from 'react-native';
-import MapView, { Circle, UrlTile } from 'react-native-maps';
+import { ActivityIndicator, KeyboardAvoidingView, SafeAreaView, TextInput, View, Text } from 'react-native';
+import MapView, { Circle, Polyline, UrlTile } from 'react-native-maps';
 import getCurrentLocation from './../../services/location';
 import Navbar from '../../components/navbar';
 import { getItemAsync } from 'expo-secure-store';
+import { Platform } from 'react-native';
 
 
 const MapScreen = () => {
@@ -71,6 +72,7 @@ const MapScreen = () => {
       .then((data) => {
         if (data.success) {
           setHeatMapData([...data.data, ...sampleHeatZones]);
+          console.log("🌡️ Heat map data:", data.data);
         } else {
           console.error('Error fetching heat map data:', data.message);
         }
@@ -123,28 +125,56 @@ const MapScreen = () => {
     },
   ];
 
-  useEffect(() => {
+  const [fromSuggestions, setFromSuggestions] = useState([]);
+  const [toSuggestions, setToSuggestions] = useState([]);
+  const [showFromDropdown, setShowFromDropdown] = useState(false);
+  const [showToDropdown, setShowToDropdown] = useState(false);
 
-    const fetchTileUrl = async () => {
+  const fetchSuggestions = async (query, type = 'from') => {
 
-      try {
+    if (!query || query.length < 4) return;
 
-        const res = await fetch(`${process.env.EXPO_PUBLIC_API_URL}aws/map/tiles/10/543/394`);
-        const data = await res.json();
+    try {
 
-        const baseTile = data.url
-          .replace(/10\/543\/394/, '{z}/{x}/{y}');
+      const res = await fetch(`${process.env.EXPO_PUBLIC_API_URL}aws/map/query?q=${encodeURIComponent(query)}`);
 
-        setTileUrlTemplate(baseTile);
+      const data = await res.json();
 
-      } catch (error) {
-        console.error('Error fetching tile URL:', error);
+      if (type === 'from') {
+        setFromSuggestions(data);
+        setShowFromDropdown(true);
+      } else {
+        setToSuggestions(data);
+        setShowToDropdown(true);
       }
-    };
+    } catch (error) {
+      console.error('Error fetching suggestions:', error);
+    }
+  };
 
-    fetchTileUrl();
+  const [routeCoordinates, setRouteCoordinates] = useState([])
 
-  }, []);
+  const fetchRoute = async () => {
+    const { from, to } = searchQuery;
+
+    if (!from?.latitude || !from?.longitude || !to?.latitude || !to?.longitude) {
+      alert("Please select both 'From' and 'To' locations.");
+      return;
+    }
+
+    try {
+      const res = await fetch(`${process.env.EXPO_PUBLIC_API_URL}map/route?fromLat=${from.latitude}&fromLng=${from.longitude}&toLat=${to.latitude}&toLng=${to.longitude}`);
+      const data = await res.json();
+      if (data.success) {
+        console.log("🛣️ Route steps:", data.data);
+        // store route or draw polyline here
+      } else {
+        console.error("Route fetch failed:", data.message);
+      }
+    } catch (err) {
+      console.error("API call error:", err);
+    }
+  };
 
   useEffect(() => {
     getHeatMapData();
@@ -153,81 +183,191 @@ const MapScreen = () => {
   useEffect(() => {
     (async () => {
       const loc = await getCurrentLocation();
-      setUserLocation(loc);
+      if (loc) {
+        setUserLocation(loc);
+        const fetchTileUrl = async () => {
+
+          try {
+
+            const res = await fetch(`${process.env.EXPO_PUBLIC_API_URL}aws/map/tiles/10/543/394`);
+            const data = await res.json();
+
+            const baseTile = data.url
+              .replace(/10\/543\/394/, '{z}/{x}/{y}');
+
+            setTileUrlTemplate(baseTile);
+
+          } catch (error) {
+            console.error('Error fetching tile URL:', error);
+          }
+        };
+
+        fetchTileUrl();
+      }
     })();
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      const loc = await getCurrentLocation();
+      setUserLocation(loc); // still keep this
+      setSearchQuery(prev => ({
+        ...prev,
+        from: {
+          ...loc,
+          address: "Your current location"
+        },
+        isFromSet: true
+      }));
+    })();
+  }, []);
+
+
   return (
-    <View className="h-screen bg-black" behavior="padding">
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      style={{ flex: 1, backgroundColor: 'black' }}
+    >
+      <SafeAreaView className="flex-1">
 
-      <Navbar />
-      <View className="flex-col gap-4 p-4 bg-black">
-        <View className="flex-row items-center border border-gray-300 rounded-xl px-4 py-1">
-          <EvilIcons name="location" size={18} color="white" />
-          <TextInput
-            className="flex-1 text-base text-white"
-            placeholder="From"
-            placeholderTextColor="#888"
-            keyboardType="default"
-            onChangeText={(text) => {
-              setSearchQuery({
-                ...searchQuery,
-                from: { ...userLocation, address: text },
-                isFromSet: true,
-              });
-            }}
-          />
-        </View>
-        <View className="flex-row items-center border border-gray-300 rounded-xl px-4 py-1">
-          <EvilIcons name="location" size={18} color="white" />
-          <TextInput
-            className="flex-1 text-base text-white"
-            placeholder="To"
-            placeholderTextColor="#888"
-            keyboardType="default"
-          />
-        </View>
-      </View>
+        <Navbar />
 
-      {
-        tileUrlTemplate ? (
-          <MapView
-            style={{ flex: 1 }}
-            initialRegion={{
-              ...userLocation,
-              latitudeDelta: 0.05,
-              longitudeDelta: 0.05,
-            }}
-            customMapStyle={darkMapStyle}
-            showsUserLocation={true}
-            followsUserLocation={true}
-          >
-            <UrlTile
-              urlTemplate={tileUrlTemplate}
-              maximumZ={18}
-              flipY={false}
+        <View className="flex-col gap-4 p-4 bg-black">
+          <View className="flex-row items-center border border-gray-300 rounded-xl px-4 py-1">
+            <EvilIcons name="location" size={18} color="white" />
+            <TextInput
+              className="flex-1 text-base text-white"
+              placeholder="From (defaults to your location)"
+              placeholderTextColor="#888"
+              keyboardType="default"
+              onChangeText={(text) => {
+                setSearchQuery(prev => ({
+                  ...prev,
+                  from: { ...prev.from, address: text },
+                  isFromSet: true
+                }));
+                fetchSuggestions(text, 'from');
+              }}
+              value={searchQuery.from?.address || ''}
             />
-            {heatMapData?.map((zone, index) => (
-              <Circle
-                key={index}
-                center={{
-                  latitude: zone.coordinates.lat,
-                  longitude: zone.coordinates.lng,
-                }}
-                radius={100}
-                fillColor={getFillColor(zone.safetyLabel)}
-                strokeColor="transparent"
-              />
-            ))}
-          </MapView>
-        ) : (
-          <View className="flex-1 items-center justify-center">
-            <ActivityIndicator size="large" />
           </View>
-        )
-      }
+          {showFromDropdown && fromSuggestions?.length > 0 && (
+            <View className="bg-zinc-900 rounded-xl mt-1">
+              {fromSuggestions?.map((s, i) => (
+                <Text
+                  key={i}
+                  className="text-white p-2 border-b border-zinc-700"
+                  onPress={() => {
+                    const selected = {
+                      address: s.label,
+                      latitude: s.coordinates.lat,
+                      longitude: s.coordinates.lng
+                    };
+                    setSearchQuery(prev => {
+                      const newQuery = { ...prev, from: selected, isFromSet: true };
+                      if (newQuery.to?.latitude) fetchRoute(); // Both selected
+                      return newQuery;
+                    });
+                    setShowFromDropdown(false);
+                  }}
+                >
+                  {s.label}
+                </Text>
+              ))}
+            </View>
+          )}
+          <View className="flex-row items-center border border-gray-300 rounded-xl px-4 py-1">
+            <EvilIcons name="location" size={18} color="white" />
+            <TextInput
+              className="flex-1 text-base text-white"
+              placeholder="To"
+              placeholderTextColor="#888"
+              keyboardType="default"
+              onChangeText={(text) => {
+                setSearchQuery(prev => ({
+                  ...prev,
+                  to: { address: text },
+                }));
+                fetchSuggestions(text, 'to');
+              }}
+              value={searchQuery?.to?.address || ''}
+            />
+          </View>
+          {showToDropdown && toSuggestions?.length > 0 && (
+            <View className="bg-zinc-900 rounded-xl mt-1">
+              {toSuggestions?.map((s, i) => (
+                <Text
+                  key={i}
+                  className="text-white p-2 border-b border-zinc-700"
+                  onPress={() => {
+                    const selected = {
+                      address: s.label,
+                      latitude: s.coordinates.lat,
+                      longitude: s.coordinates.lng
+                    };
+                    setSearchQuery(prev => {
+                      const newQuery = { ...prev, to: selected };
+                      if (newQuery.from?.latitude) fetchRoute(); // Both selected
+                      return newQuery;
+                    });
+                    setShowToDropdown(false);
+                  }}
+                >
+                  {s.label}
+                </Text>
+              ))}
+            </View>
+          )}
 
-    </View>
+        </View>
+
+        {
+          tileUrlTemplate ? (
+            <MapView
+              style={{ flex: 1 }}
+              initialRegion={{
+                ...userLocation,
+                latitudeDelta: 0.05,
+                longitudeDelta: 0.05,
+              }}
+              customMapStyle={darkMapStyle}
+              showsUserLocation={true}
+              followsUserLocation={true}
+            >
+              <UrlTile
+                urlTemplate={tileUrlTemplate}
+                maximumZ={18}
+                flipY={false}
+              />
+              {heatMapData?.map((zone, index) => (
+                <Circle
+                  key={index}
+                  center={{
+                    latitude: zone.coordinates.lat,
+                    longitude: zone.coordinates.lng,
+                  }}
+                  radius={100}
+                  fillColor={getFillColor(zone.safetyLabel)}
+                  strokeColor="transparent"
+                />
+              ))}
+              {routeCoordinates.length > 0 && (
+                <Polyline
+                  coordinates={routeCoordinates}
+                  strokeColor="#FFFFFF"
+                  strokeWidth={6}
+                />
+              )}
+
+            </MapView>
+          ) : (
+            <View className="flex-1 items-center justify-center">
+              <ActivityIndicator size="large" />
+            </View>
+          )
+        }
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   )
 }
 

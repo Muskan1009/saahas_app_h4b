@@ -2,10 +2,21 @@ import { Ionicons } from '@expo/vector-icons';
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import Navbar from '../../components/navbar'; // Adjust path as per your project
+import { useEffect } from 'react';
+import { getItemAsync } from 'expo-secure-store'
+import { registerForPushNotificationsAsync } from '../../libs/notifications';
+import getCurrentLocation from '../../services/location';
 
 export default function Home() {
-      const router = useRouter();
-  
+
+  const router = useRouter();
+
+  useEffect(() => {
+    (async () => {
+      const loc = await getCurrentLocation();
+    })();
+  }, []);
+
   return (
     <View className="flex-1 pt-7 bg-black">
       {/* Top Navbar */}
@@ -48,37 +59,37 @@ export default function Home() {
             </View>
           </View>
 
-{/* Quick Actions */}
-<Text className="text-white font-semibold text-lg mt-8 mb-8 text-center">Quick actions</Text>
+          {/* Quick Actions */}
+          <Text className="text-white font-semibold text-lg mt-8 mb-8 text-center">Quick actions</Text>
 
-<View className="flex-row justify-between gap-3">
-  {/* Map Card: Unsafe Zone */}
-  <TouchableOpacity className="w-[58%] rounded-md border border-[#3C3C3C] bg-[#1a1a1a] overflow-hidden">
-    <View className="w-full h-44 rounded-t-md overflow-hidden">
-      <Image
-        source={require('../../assets/images/map_placeholder.png')}
-        className="w-full h-full"
-        resizeMode="cover"
-      />
-    </View>
-    <Text className="text-white text-center text-sm py-3">Unsafe zone near me</Text>
-  </TouchableOpacity>
+          <View className="flex-row justify-between gap-3">
+            {/* Map Card: Unsafe Zone */}
+            <TouchableOpacity className="w-[58%] rounded-md border border-[#3C3C3C] bg-[#1a1a1a] overflow-hidden">
+              <View className="w-full h-44 rounded-t-md overflow-hidden">
+                <Image
+                  source={require('../../assets/images/map_placeholder.png')}
+                  className="w-full h-full"
+                  resizeMode="cover"
+                />
+              </View>
+              <Text className="text-white text-center text-sm py-3">Unsafe zone near me</Text>
+            </TouchableOpacity>
 
-  {/* Add Allies + SOS Stack */}
-  <View className="w-[40%] justify-between">
-    {/* Add Allies */}
-    <TouchableOpacity className="bg-[#BBF389] rounded-md py-7 items-center justify-center"  onPress={() => router.push('/allies')}>
-      <Ionicons name="people-outline" size={22} color="black" />
-      <Text className="text-black text-sm mt-2">Add Allies</Text>
-    </TouchableOpacity>
+            {/* Add Allies + SOS Stack */}
+            <View className="w-[40%] justify-between">
+              {/* Add Allies */}
+              <TouchableOpacity className="bg-[#BBF389] rounded-md py-7 items-center justify-center" onPress={() => router.push('/allies')}>
+                <Ionicons name="people-outline" size={22} color="black" />
+                <Text className="text-black text-sm mt-2">Add Allies</Text>
+              </TouchableOpacity>
 
-    {/* Send SOS */}
-    <TouchableOpacity className="bg-[#1a1a1a] border border-[#FF4D4D] rounded-md py-5 items-center justify-center ">
-      <Ionicons name="alert-circle" size={24} color="#FF4D4D" />
-      <Text className="text-[white] text-sm mt-2">Send SOS</Text>
-    </TouchableOpacity>
-  </View>
-</View>
+              {/* Send SOS */}
+              <TouchableOpacity className="bg-[#1a1a1a] border border-[#FF4D4D] rounded-md py-5 items-center justify-center ">
+                <Ionicons name="alert-circle" size={24} color="#FF4D4D" />
+                <Text className="text-[white] text-sm mt-2">Send SOS</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
 
 
           {/* Weekly Updates */}

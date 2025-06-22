@@ -1,18 +1,19 @@
 import { Tabs, useRouter } from 'expo-router';
-import { MaterialCommunityIcons, Feather, Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { View, Text, TouchableOpacity, StatusBar } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Feather, Ionicons } from '@expo/vector-icons';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import '../../global.css';
 
 export default function RootLayout() {
+  
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
   return (
     <SafeAreaView style={{ flex: 1 }} edges={[]}>
-      <StatusBar barStyle="light-content" />
-      
+      <StatusBar hidden={true} />
       <Tabs
         screenOptions={{
           headerShown: false,
@@ -20,7 +21,7 @@ export default function RootLayout() {
           tabBarStyle: {
             position: 'absolute',
             alignItems: 'center',
-            paddingBottom: 40,
+            paddingBottom: 50,
             bottom: 0,
             left: 10,
             right: 10,
@@ -28,8 +29,11 @@ export default function RootLayout() {
             backgroundColor: '#2F2F2F',
             borderTopLeftRadius: 40,
             borderTopRightRadius: 40,
+            borderBottomLeftRadius: 0,
+            borderBottomRightRadius: 0,
             shadowColor: '#000',
             shadowOffset: { width: 0, height: 0 },
+            flexDirection: 'row',
             shadowOpacity: 0,
             shadowRadius: 0,
             elevation: 10,
@@ -40,7 +44,7 @@ export default function RootLayout() {
           name="home"
           options={{
             tabBarIcon: ({ focused }) => (
-              <TabIcon label="Home" icon="home-outline" focused={focused} />
+              <TabIcon label="home" icon="home-outline" focused={focused} />
             ),
           }}
         />
@@ -52,27 +56,23 @@ export default function RootLayout() {
             ),
           }}
         />
+
         <Tabs.Screen
-          name="pledge"
+          name="badge"
           options={{
             tabBarIcon: ({ focused }) => (
-              <TabIcon label="Pledge" icon="ribbon-outline" focused={focused} />
+              <TabIcon label="Badge" icon="ribbon-outline" focused={focused} />
             ),
           }}
         />
+
         <Tabs.Screen
           name="echo"
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center">
-                <MaterialCommunityIcons
-                  name="robot-love-outline"
-                  size={24}
-                  color={focused ? '#8BE4AB' : '#FFFFFF'}
-                />
-                <Text className={`text-[10px] ${focused ? 'text-[#8BE4AB]' : 'text-white'}`}>
-                  Echo
-                </Text>
+                <MaterialCommunityIcons name="robot-love-outline" size={24} color={focused ? '#8BE4AB' : '#FFFFFF'} />
+                <Text className={`text-[10px] ${focused ? 'text-[#8BE4AB]' : 'text-white'}`}>Echo</Text>
               </View>
             ),
           }}
@@ -91,11 +91,11 @@ export default function RootLayout() {
           borderRadius: 32,
           elevation: 10,
           zIndex: 50,
-          overflow: 'hidden', // rounds gradient corners
+          overflow: 'hidden', // important to round gradient corners
         }}
       >
         <LinearGradient
-          colors={['#8BE4AB', '#16D2E6']}
+          colors={['#8BE4AB', '#16D2E6']} // violet gradient
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={{
@@ -108,7 +108,7 @@ export default function RootLayout() {
           <Ionicons name="arrow-up-circle-outline" size={28} color="black" />
         </LinearGradient>
       </TouchableOpacity>
-    </SafeAreaView>
+    </SafeAreaView >
   );
 }
 
