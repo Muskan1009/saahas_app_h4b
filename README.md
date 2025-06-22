@@ -1,50 +1,51 @@
-# Welcome to your Expo app 👋
+# 🌸 Saahas – A Gender-Inclusive Safety & Trust Platform
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Saahas is a mobile-first safety application designed to bridge the trust gap between genders in public spaces. Unlike traditional safety apps that isolate users by gender, Saahas promotes mutual accountability and trust-building by involving everyone — men, women, and all genders — in a shared mission of public safety.
 
-## Get started
+🌐 Live Heatmap | 👥 Verified Community | 🔐 SOS Alerts | 🤝 AI-Powered Trust
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+## 🚀 Features
 
-2. Start the app
+- 🌍 **Crowd-Sourced Real-Time Safety Heatmap**  
+  Visualizes safe, unsafe, and caution zones based on verified user reports and AI-tagged data.
 
-   ```bash
-   npx expo start
-   ```
+- 🧑‍🤝‍🧑 **Gender-Inclusive Trust Architecture**  
+  Encourages men to act as verified allies while empowering women to report, reflect, and lead.
 
-In the output, you'll find options to open the app in a
+- 🧠 **AI-Powered Contextual Analysis**  
+  Uses Gemini API and NLP models to classify and prioritize reports by urgency and type (e.g., harassment, stalking).
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- 🔐 **Aadhaar-Based Identity Verification**  
+  Every user is verified, eliminating fake reports and improving accountability.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- 🆘 **SOS Alert System with Smart Routing**  
+  Sends location-based alerts to trusted allies and updates heatmap risk in real-time.
 
-## Get a fresh project
+- 🫂 **Empathy-Focused Pledges**  
+  Role-based pledges promote reflective, responsible use and reinforce trust between genders.
 
-When you're ready, run:
+---
 
-```bash
-npm run reset-project
-```
+## 📱 Tech Stack
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+- React Native + Expo Go (Frontend – cross-platform)
+- Tailwind CSS via NativeWind (UI Styling)
+- Node.js + Express (Backend API)
+- MongoDB Atlas (Cloud Database)
+- Gemini API (AI report analysis)
+- Socket.IO (Real-time heatmap and alerts)
+- Aadhaar-based Authentication (via UIDAI Sandbox/API – in dev stage)
 
-## Learn more
+---
 
-To learn more about developing your project with Expo, look at the following resources:
+## 🧠 Architecture Overview
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- Reports are submitted by verified users  
+- Gemini classifies urgency/type  
+- Verified reports are stored and visualized on the heatmap  
+- Heatmap zones update based on number, frequency, and credibility of reports  
+- SOS triggers real-time notifications to allies
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+---
