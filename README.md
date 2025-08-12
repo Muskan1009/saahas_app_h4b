@@ -1,5 +1,6 @@
 # 🌸 Saahas – A Gender-Inclusive Safety & Trust Platform
 
+<img src="images/img1 (1).png" alt="=Screenshot" width="500"/>
 Saahas is a mobile-first safety application designed to bridge the trust gap between genders in public spaces. Unlike traditional safety apps that isolate users by gender, Saahas promotes mutual accountability and trust-building by involving everyone — men, women, and all genders — in a shared mission of public safety.
 
 🌐 Live Heatmap | 👥 Verified Community | 🔐 SOS Alerts | 🤝 AI-Powered Trust
