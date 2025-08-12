@@ -9,6 +9,9 @@ Saahas is a mobile-first safety application designed to bridge the trust gap bet
 
 ## 🚀 Features
 
+<img src="images/img1 (4).png" alt="=Screenshot" width="500"/>
+<img src="images/img1 (5).png" alt="=Screenshot" width="500"/>
+
 - 🌍 **Crowd-Sourced Real-Time Safety Heatmap**  
   Visualizes safe, unsafe, and caution zones based on verified user reports and AI-tagged data.
 
